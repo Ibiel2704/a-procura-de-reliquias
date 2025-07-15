@@ -1,15 +1,224 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/a-procura-de-reliquias/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Procura de Relíquias</title>
-    <script type="module" crossorigin src="/a-procura-de-reliquias/assets/index-CsVHOecq.js"></script>
-    <link rel="stylesheet" crossorigin href="/a-procura-de-reliquias/assets/index-CrcMsCE0.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Tela de Introdução -->
+    <div id="intro-screen" class="screen">
+        <div class="intro-container">
+            <div class="intro-card">
+                <div class="intro-header">
+                    <h1 class="intro-title">🏛️ A Procura de Relíquias</h1>
+                    <p class="intro-subtitle">Descubra os segredos da Paleontologia e Arqueologia.</p>
+                </div>
+                <div class="intro-content">
+                    <div class="intro-text">
+                        <p>Bem-vindo, jovem explorador! Você está prestes a embarcar em uma jornada fascinante, onde registros paleontológicos e arqueológicos coexistem de forma única no mundo.</p>
+                        <p>Sua missão é aprender a diferenciar vestígios paleontológicos de arqueológicos e identificar os tipos de fósseis encontrados na região.</p>
+                    </div>
+                    
+                    <div class="intro-cards">
+                        <div class="info-card paleontology">
+                            <h3>🦕 Paleontologia</h3>
+                            <p>Estuda a vida antiga através de fósseis de plantas, animais e outros organismos.</p>
+                        </div>
+                        <div class="info-card archaeology">
+                            <h3>🏺 Arqueologia</h3>
+                            <p>Estuda a humanidade através de artefatos e vestígios de sociedades humanas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="intro-button-container">
+                        <button id="start-game-btn" class="start-button">
+                            Começar Exploração ➡️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela do Jogo -->
+    <div id="game-screen" class="screen hidden">
+        <div class="game-container">
+            <!-- Header -->
+            <div class="game-header">
+                <div class="header-left">
+                    <button id="home-btn" class="header-btn">
+                        🏠 Início
+                    </button>
+                    <div class="level-badge">
+                        📍 <span id="current-level-name">Fase 01</span>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="score-badge">
+                        🏆 <span id="score">0</span> pontos
+                    </div>
+                    <button id="glossary-btn" class="header-btn">
+                        📚 Glossário
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Descrição do Nível e Barra de Progresso -->
+            <div class="level-info">
+                <p id="level-description">Explore o famoso Vale dos Dinossauros em Sousa-PB</p>
+                
+                <!-- Barra de Pontos com Indicadores de Medalhas -->
+                <div class="progress-container">
+                    <div class="progress-labels">
+                        <span>0</span>
+                        <span class="bronze-label">🥉 30</span>
+                        <span class="silver-label">🥈 40-70</span>
+                        <span class="gold-label">🥇 80-100</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-markers">
+                        <div class="marker" style="left: 0%"></div>
+                        <div class="marker bronze" style="left: 30%"></div>
+                        <div class="marker silver" style="left: 40%"></div>
+                        <div class="marker gold" style="left: 80%"></div>
+                        <div class="marker" style="left: 100%"></div>
+                    </div>
+                </div>
+                
+                <!-- Botão "Receber Medalha" -->
+                <div id="medal-button-container" class="medal-button-container hidden">
+                    <button id="receive-medal-btn" class="receive-medal-btn">
+                        🏆 RECEBER MEDALHA 🏆
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <!-- Área de Exploração -->
+                <div class="exploration-area">
+                    <div class="exploration-header">
+                        💡 Área de Exploração
+                    </div>
+                    <div id="discoveries-grid" class="discoveries-grid">
+                        <!-- Descobertas serão inseridas aqui via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Glossário -->
+                    <div id="glossary-card" class="sidebar-card hidden">
+                        <div class="sidebar-header">📚 Glossário</div>
+                        <div class="glossary-content">
+                            <div class="glossary-item">
+                                <h4>Paleontologia</h4>
+                                <p>Ciência que estuda a história da vida na Terra através de vestígios preservados de seres vivos (fósseis).</p>
+                            </div>
+                            <div class="glossary-item">
+                                <h4>Arqueologia</h4>
+                                <p>Ciência que estuda a humanidade através de vestígios materiais deixados por sociedades humanas.</p>
+                            </div>
+                            <div class="glossary-item">
+                                <h4>Somatofóssil</h4>
+                                <p>Fóssil formado por restos do corpo de organismos, como ossos, dentes, folhas e troncos.</p>
+                            </div>
+                            <div class="glossary-item">
+                                <h4>Icnofóssil</h4>
+                                <p>Fóssil formado por vestígios de atividades de organismos, como pegadas, rastros e tocas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Descobertas -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-header">🔍 Suas Descobertas</div>
+                        <div id="discoveries-list" class="discoveries-list">
+                            <p class="no-discoveries">Nenhuma descoberta correta ainda...</p>
+                        </div>
+                    </div>
+
+                    <!-- Navegação de Níveis -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-header">🗺️ Níveis</div>
+                        <div class="levels-nav">
+                            <button class="level-btn active" data-level="1">Fase 01</button>
+                            <button class="level-btn" data-level="2">Fase 02</button>
+                            <button class="level-btn" data-level="3">Fase Final</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay da Medalha -->
+    <div id="medal-overlay" class="overlay hidden">
+        <div class="medal-container">
+            <img id="medal-image" src="" alt="Medalha" class="medal-image">
+            <p id="medal-text" class="medal-text"></p>
+            <p id="final-score" class="final-score"></p>
+            <button id="receive-reward-btn" class="receive-reward-btn">
+                Receber Recompensa 🎁
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay da Caixa de Presente -->
+    <div id="gift-overlay" class="overlay hidden">
+        <div class="gift-container">
+            <div class="gift-header">
+                <h2>Fósseis Brasileiros Encontrados!</h2>
+            </div>
+            <div class="gift-content">
+                <img id="fossil-image" src="" alt="Fóssil Brasileiro" class="fossil-image">
+                <button id="next-fossil-btn" class="next-fossil-btn">Próximo Fóssil</button>
+                <button id="play-again-btn" class="play-again-btn">Jogar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do Quiz -->
+    <div id="quiz-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="quiz-header">
+                <img id="quiz-image" src="" alt="" class="quiz-image">
+                <h3 id="quiz-title"></h3>
+            </div>
+            
+            <div id="quiz-questions" class="quiz-questions">
+                <div class="question-group">
+                    <p>Este vestígio pertence a:</p>
+                    <div class="options">
+                        <button class="option-btn" data-type="paleontologia">Paleontologia</button>
+                        <button class="option-btn" data-type="arqueologia">Arqueologia</button>
+                    </div>
+                </div>
+                
+                <div id="subtype-question" class="question-group hidden">
+                    <p>Tipo de fóssil:</p>
+                    <div class="options">
+                        <button class="option-btn" data-subtype="somatofossil">Somatofóssil</button>
+                        <button class="option-btn" data-subtype="icnofossil">Icnofóssil</button>
+                    </div>
+                </div>
+                
+                <button id="confirm-answer-btn" class="confirm-btn" disabled>Confirmar</button>
+            </div>
+            
+            <div id="quiz-feedback" class="quiz-feedback hidden">
+                <div id="feedback-message" class="feedback-message"></div>
+                <div id="feedback-description" class="feedback-description"></div>
+                <button id="close-quiz-btn" class="close-btn">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
 
