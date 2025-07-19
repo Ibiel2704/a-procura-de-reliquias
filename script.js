@@ -35,7 +35,7 @@ const levels = [
                 image: "assets/osso-dinossauro.jpg",
                 type: "paleontologia",
                 subtype: "somatofossil",
-                description: "Este fragmento de osso fossilizado pertenceu a um dinossauro saurópode que viveu no período Cretáceo. É um somatofóssil porque é uma parte real do corpo do animal que foi preservada através do processo de fossilização. Os ossos nos fornecem informações sobre a anatomia, tamanho e estrutura desses gigantes pré-históricos.",
+                description: "Este fragmento de osso fossilizado pertenceu a um dinossauro ceratopsiano que viveu no período Cretáceo. É um somatofóssil porque é uma parte real do corpo do animal que foi preservada através do processo de fossilização. Os ossos nos fornecem informações sobre a anatomia, tamanho e estrutura desses gigantes pré-históricos.",
                 explanation: "O osso é classificado como PALEONTOLOGIA porque estuda vida antiga (dinossauros) e como SOMATOFÓSSIL porque é uma parte real do corpo do organismo."
             },
             {
