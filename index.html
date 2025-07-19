@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Procura de Relíquias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Tela de Introdução */
+        .intro-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .intro-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .intro-title {
+            font-size: 2.5rem;
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .intro-subtitle {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .intro-description {
+            color: #4b5563;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .science-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .science-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid;
+        }
+
+        .paleontology-card {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .archaeology-card {
+            border-left-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .btn {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+        }
+
+        /* Tela de Jogo */
+        .game-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dbeafe 0%, #dcfce7 100%);
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .badge {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge.level {
+            background: #e5e7eb;
+        }
+
+        .badge.score {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .progress-container {
+            margin-top: 15px;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-markers {
+            position: absolute;
+            top: 16px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-marker {
+            width: 1px;
+            height: 8px;
+            background: #6b7280;
+        }
+
+        .medal-button {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            margin-top: 15px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .exploration-area {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 25px;
+        }
+
+        .discoveries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .discovery-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .discovery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .discovery-card.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .discovery-card.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .discovery-card.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .discovery-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .discovery-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .discovery-status {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .quiz-container {
+            margin-top: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .quiz-btn {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .quiz-btn.selected {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .feedback {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #6b7280;
+        }
+
+        .feedback.correct {
+            background: #ecfdf5;
+            border-left-color: #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .glossary-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .glossary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .glossary-term {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .glossary-definition {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .level-btn {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+        }
+
+        .level-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .level-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .discovery-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .discovery-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .discovery-thumb {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* Modal/Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.25);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .medal-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin: 0 auto 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .fossil-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .science-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .discoveries-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Introdução -->
+    <div id="intro-screen" class="intro-screen">
+        <div class="intro-card">
+            <h1 class="intro-title">🏛️ A Procura de Relíquias</h1>
+            <p class="intro-subtitle">Descubra os segredos da Paleontologia e Arqueologia.</p>
+            
+            <div class="intro-description">
+                <p>Bem-vindo, jovem explorador! Você está prestes a embarcar em uma jornada fascinante, onde registros paleontológicos e arqueológicos coexistem de forma única no mundo.</p>
+                <br>
+                <p>Sua missão é aprender a diferenciar vestígios paleontológicos de arqueológicos e identificar os tipos de fósseis encontrados na região.</p>
+            </div>
+            
+            <div class="science-cards">
+                <div class="science-card paleontology-card">
+                    <h3>🦕 Paleontologia</h3>
+                    <p>Estuda a vida antiga através de fósseis de plantas, animais e outros organismos.</p>
+                </div>
+                <div class="science-card archaeology-card">
+                    <h3>🏺 Arqueologia</h3>
+                    <p>Estuda a humanidade através de artefatos e vestígios de sociedades humanas.</p>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="startGame()">
+                Começar Exploração →
+            </button>
+        </div>
+    </div>
+
+    <!-- Tela de Jogo -->
+    <div id="game-screen" class="game-screen hidden">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-top">
+                    <div class="header-left">
+                        <button class="btn" onclick="goToIntro()">🏠 Início</button>
+                        <div class="badge level">
+                            📍 <span id="current-level-name">Fase 01</span>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="badge score">
+                            🏆 <span id="score">0</span> pontos
+                        </div>
+                        <button class="btn" onclick="toggleGlossary()">📚 Glossário</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <p id="level-description">Explore o famoso Vale dos Dinossauros em Sousa-PB</p>
+                    
+                    <div class="progress-container">
+                        <div class="progress-labels">
+                            <span>0</span>
+                            <span style="color: #d97706;">🥉 30</span>
+                            <span style="color: #6b7280;">🥈 40-70</span>
+                            <span style="color: #fbbf24;">🥇 80-100</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-markers">
+                            <div class="progress-marker"></div>
+                            <div class="progress-marker" style="margin-left: 30%;"></div>
+                            <div class="progress-marker" style="margin-left: 40%;"></div>
+                            <div class="progress-marker" style="margin-left: 80%;"></div>
+                            <div class="progress-marker"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="medal-button-container" class="hidden" style="text-align: center;">
+                        <button class="medal-button" onclick="showMedal()">
+                            🏆 RECEBER MEDALHA 🏆
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Área de Exploração -->
+                <div class="exploration-area">
+                    <h2 class="sidebar-title">💡 Área de Exploração</h2>
+                    <div id="discoveries-grid" class="discoveries-grid">
+                        <!-- Descobertas serão inseridas aqui via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Glossário -->
+                    <div id="glossary-card" class="sidebar-card hidden">
+                        <h3 class="sidebar-title">📚 Glossário</h3>
+                        <div id="glossary-content">
+                            <div class="glossary-item">
+                                <div class="glossary-term">Paleontologia</div>
+                                <div class="glossary-definition">Ciência que estuda a história da vida na Terra através de vestígios preservados de seres vivos (fósseis).</div>
+                            </div>
+                            <div class="glossary-item">
+                                <div class="glossary-term">Arqueologia</div>
+                                <div class="glossary-definition">Ciência que estuda a humanidade através de vestígios materiais deixados por sociedades humanas.</div>
+                            </div>
+                            <div class="glossary-item">
+                                <div class="glossary-term">Somatofóssil</div>
+                                <div class="glossary-definition">Fóssil formado por restos do corpo de organismos, como ossos, dentes, folhas e troncos.</div>
+                            </div>
+                            <div class="glossary-item">
+                                <div class="glossary-term">Icnofóssil</div>
+                                <div class="glossary-definition">Fóssil formado por vestígios de atividades de organismos, como pegadas, rastros e tocas.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Descobertas -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">🔍 Suas Descobertas</h3>
+                        <div id="discoveries-list" class="discovery-list">
+                            <p style="color: #6b7280; font-size: 0.9rem;">Nenhuma descoberta correta ainda...</p>
+                        </div>
+                    </div>
+
+                    <!-- Navegação de Níveis -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">🗺️ Níveis</h3>
+                        <div id="levels-navigation">
+                            <div class="level-btn active" onclick="changeLevel(1)">Fase 01</div>
+                            <div class="level-btn" onclick="changeLevel(2)">Fase 02</div>
+                            <div class="level-btn" onclick="changeLevel(3)">Fase Final</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Medalha -->
+    <div id="medal-overlay" class="overlay hidden">
+        <div class="modal">
+            <img id="medal-image" class="medal-image" src="" alt="Medalha">
+            <h2 id="medal-text">Explorador Supremo do Passado!</h2>
+            <p>Sua pontuação final: <span id="final-score">0</span> pontos</p>
+            <button class="btn" onclick="showGiftBox()" style="margin-top: 20px;">
+                Receber Recompensa 🎁
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Caixa de Presente -->
+    <div id="gift-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 style="color: #3b82f6; margin-bottom: 20px;">Fósseis Brasileiros Encontrados!</h2>
+            <img id="fossil-image" class="fossil-image" src="" alt="Fóssil Brasileiro">
+            <button class="btn" onclick="nextFossil()" style="margin-bottom: 15px;">
+                Próximo Fóssil
+            </button>
+            <button class="btn" onclick="restartGame()" style="background: #6b7280; width: 100%;">
+                Jogar Novamente
+            </button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
+
